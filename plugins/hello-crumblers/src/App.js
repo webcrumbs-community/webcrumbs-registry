@@ -3,7 +3,9 @@ import React from 'react';
 export default () => {
   return (
     <div>
-      Hello, Crumblers!
+      <h1>
+        Hello, Crumblers!
+      </h1>
     </div>
   );
 };
