@@ -14,7 +14,7 @@ Interested in contributing? Use our [Webcrumbs Plugin Boilerplate](https://githu
 
 ## License
 
-This project is open-source and available under the [MIT License](https://github.com/webcrumbs-community/webcrumbs/blob/main/LICENSE.md).
+Plugins follow the license attributed to them by their authors.
 
 ## Code of Conduct
 
