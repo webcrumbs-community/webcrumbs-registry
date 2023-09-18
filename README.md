@@ -2,6 +2,8 @@
 
 Welcome to the official registry for [Webcrumbs](https://github.com/webcrumbs-community/webcrumbs) plugins. This is a curated collection of community-contributed plugins aimed at enhancing your Webcrumbs experience.
 
+If you find this project interesting or useful, please consider [giving it a star to the **main repo**](https://github.com/webcrumbs-community/webcrumbs)  ⭐️. Your support helps us make Webcrumbs better for everyone.
+
 ## What's Inside
 
 - A curated list of approved community-contributed plugins for the Webcrumbs platform.
