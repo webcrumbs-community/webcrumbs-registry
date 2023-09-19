@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Frontend from './Frontend';
-import Admin from './Admin';
+import Frontend from './components/Frontend';
+import Admin from './components/Admin';
 
 const frontend = (el) => {
   ReactDOM.render(<Frontend />, el);

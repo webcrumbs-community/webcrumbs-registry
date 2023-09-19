@@ -1,6 +1,13 @@
 {
   "name": "hello-crumblers",
+  "component": "HelloCrumblers",
+  "description": "First Webcrumbs plugin ever",
+  "URI": "https://my-plugin-website.org",
   "version": "1.0.0",
+  "requires_at_least": "1.0.0",
+  "author": "Webcrumbs Maintainer",
+  "license": "MIT",
+  "license_URI": "https://opensource.org/license/mit/",
   "scripts": {
     "start": "webpack serve --config config/webpack.dev.js",
     "build": "webpack --config config/webpack.prod.js"
