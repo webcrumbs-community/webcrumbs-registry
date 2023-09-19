@@ -12,6 +12,14 @@ If you find this project interesting or useful, please consider [giving it a sta
 
 Interested in contributing? Use our [Webcrumbs Plugin Boilerplate](https://github.com/webcrumbs-community/webcrumbs-plugin-boilerplate) to kickstart your development. Once your plugin is ready, follow the submission guidelines in our [CONTRIBUTING.md](https://github.com/webcrumbs-community/webcrumbs/blob/main/CONTRIBUTING.md) to propose your plugin for inclusion in this registry.
 
+## Sharing Your Plugin
+
+At times, a plugin you develop might be for your own specific use-case. However, the true power of Webcrumbs lies in the collective contributions of our vibrant community—our Crumblers! If you're considering sharing your plugin, one essential step is to select a license.
+
+Choosing a license clarifies the terms under which others can use or modify your code. To ensure seamless compatibility within the Webcrumbs ecosystem, we recommend that you choose a license compatible with the MIT License, which is what Webcrumbs itself is licensed under.
+
+By sharing your plugin, you're not just enhancing your own project; you're contributing to a growing community of developers, designers, and all-around web enthusiasts. So go ahead, spread the crumbs!
+
 ## License
 
 Plugins follow the license attributed to them by their authors.
