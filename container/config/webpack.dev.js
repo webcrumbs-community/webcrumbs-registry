@@ -6,15 +6,14 @@ const packageJson = require('../package.json');
 const devConfig = {
   mode: 'development',
   devServer: {
-    port: 8081,
+    port: 8080,
     historyApiFallback: true
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: 'helloCrumblers',
-      filename: 'remoteEntry.js',
-      exposes: {
-        './HelloCrumblers': './src/bootstrap',
+      name: 'container',
+      remotes: {
+        helloCrumblers: 'helloCrumblers@http://localhost:8081/remoteEntry.js',
       },
       shared: packageJson.dependencies,
     }),

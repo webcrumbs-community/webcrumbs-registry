@@ -1,11 +1,11 @@
 import React from 'react';
 
-export default () => {
+export default function Header({ signedIn, onSignOut }) {
   return (
     <div>
       <h1>
-        Hello, Crumblers!
+        Header
       </h1>
     </div>
   );
-};
+}
