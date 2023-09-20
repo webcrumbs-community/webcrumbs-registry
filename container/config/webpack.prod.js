@@ -4,7 +4,6 @@ const commonConfig = require('./webpack.common');
 const packageJson = require('../package.json');
 
 // const domain = process.env.PRODUCTION_DOMAIN;
-const domain = 'https://dkpgqiynfz7yt.cloudfront.net/';
 
 const prodConfig = {
   mode: 'production',
@@ -16,7 +15,7 @@ const prodConfig = {
     new ModuleFederationPlugin({
       name: 'container',
       remotes: {
-        helloCrumblers: `helloCrumblers@${domain}/helloCrumblers/latest/remoteEntry.js`,
+        helloCrumblers: `helloCrumblers@https://dkpgqiynfz7yt.cloudfront.net/helloCrumblers/latest/remoteEntry.js`,
       },
       shared: packageJson.dependencies,
     }),
