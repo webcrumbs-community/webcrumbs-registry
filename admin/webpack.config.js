@@ -20,6 +20,10 @@ module.exports = {
     new ModuleFederationPlugin({
       name: "admin",
       remotes,
+      filename: "remoteEntry.js",
+      exposes: {
+        "./Admin": "./src/bootstrap.js",
+      },
     }),
     new HtmlWebpackPlugin({
       template: "./public/index.html",
