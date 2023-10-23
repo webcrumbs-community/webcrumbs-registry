@@ -9,6 +9,12 @@ on:
 jobs:
   generate_yaml:
     runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: write
+      pull-requests: write
+      workflows: write
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
