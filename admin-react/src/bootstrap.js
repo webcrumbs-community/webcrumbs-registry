@@ -9,7 +9,7 @@ const mount = (el) => {
 };
 
 if (process.env.NODE_ENV === "development") {
-  const el = document.querySelector("#dev-marketing");
+  const el = document.querySelector("#dev-admin");
   console.log(el);
 
   if (el) {

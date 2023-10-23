@@ -1,5 +1,5 @@
 {
-  "name": "marketing",
+  "name": "container",
   "version": "1.0.0",
   "scripts": {
     "dev": "webpack serve --config config/webpack.dev.js",
