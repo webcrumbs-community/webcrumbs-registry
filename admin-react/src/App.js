@@ -1,8 +1,9 @@
 import React from "react";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
+import { mount } from 'marketing/Marketing';
 
 const App = () => {
-  console.log('app');
+  console.log(mount);
   return (
     <div>
       something
