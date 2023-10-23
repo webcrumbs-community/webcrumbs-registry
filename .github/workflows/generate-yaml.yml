@@ -1,0 +1,34 @@
+name: Generate Dynamic Multi-Level YAML on Push
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  generate_yaml:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Get list of top-level folders
+        id: get-top-folders
+        run: echo "::set-output name=folders::$(ls -d */ | grep -vE '^\./|\.$' | sed 's/\/$//')"
+
+      - name: Get list of plugin folders
+        id: get-plugin-folders
+        run: echo "::set-output name=plugin_folders::$(ls -d plugins/*/ | grep -vE '^\./|\.$' | sed 's/\/$//')"
+
+      - name: Generate YAML files
+        run: |
+          IFS=' ' read -ra FOLDERS <<< "${{ steps.get-top-folders.outputs.folders }} ${{ steps.get-plugin-folders.outputs.plugin_folders }}"
+          for folder in "${FOLDERS[@]}"; do
+            python path/to/generate_yaml.py "$folder"
+          done
