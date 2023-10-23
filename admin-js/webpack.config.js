@@ -3,7 +3,7 @@ const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPl
 
 // TO-DO: import from db
 plugins_list = [
-  { plugin: "helloDolly", registry: "http://localhost:8081/remoteEntry.js" },
+  { plugin: "helloDolly", registry: "http://localhost:7081/remoteEntry.js" },
 ];
 
 const remotes = plugins_list.reduce((acc, plugin) => {
@@ -14,7 +14,7 @@ const remotes = plugins_list.reduce((acc, plugin) => {
 module.exports = {
   mode: "development",
   devServer: {
-    port: 8080,
+    port: 7080,
   },
   plugins: [
     new ModuleFederationPlugin({
