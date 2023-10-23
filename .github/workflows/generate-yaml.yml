@@ -26,6 +26,9 @@ jobs:
         id: get-plugin-folders
         run: echo "::set-output name=plugin_folders::$(ls -d plugins/*/ | grep -vE '^\./|\.$' | sed 's/\/$//')"
 
+      - name: Install Python dependencies
+        run: pip install pyyaml
+
       - name: Generate YAML files
         run: |
           IFS=' ' read -ra FOLDERS <<< "${{ steps.get-top-folders.outputs.folders }} ${{ steps.get-plugin-folders.outputs.plugin_folders }}"
