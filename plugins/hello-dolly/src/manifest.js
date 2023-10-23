@@ -1,10 +1,9 @@
-import { faker } from "@faker-js/faker";
+import { config } from "../webcrumbs";
+
 
 const mount = (el) => {
-  const name = faker.commerce.productName();
-  let sayHello = `<div>Hello, ${name}!</div>`;
-
-  el.innerHTML = sayHello;
+  let output = JSON.stringify(config);
+  el.innerHTML = output;
 };
 
 if (process.env.NODE_ENV === "development") {
