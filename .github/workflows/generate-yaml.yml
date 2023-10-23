@@ -16,7 +16,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'
+          python-version: "3.x"
 
       - name: Get list of top-level folders
         id: get-top-folders
@@ -43,12 +43,18 @@ jobs:
           git checkout -b auto-generated-yaml
           git add -A
           git commit -m "Automatically generated new YAML files"
-            
+          git push origin auto-generated-yaml
+
+      - name: Checkout Main Branch
+        run: |
+          git checkout main
+          git pull
+
       - name: Push and Create PR
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          base: main
           branch: auto-generated-yaml
           title: "Automatically Generated YAML Files"
           body: "This PR includes the newly generated YAML workflow files."
-    
