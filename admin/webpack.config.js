@@ -22,7 +22,7 @@ module.exports = {
       remotes,
       filename: "remoteEntry.js",
       exposes: {
-        "./Admin": "./src/bootstrap.js",
+        "./Admin": "./src/admin.js",
       },
     }),
     new HtmlWebpackPlugin({
