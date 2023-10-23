@@ -1,3 +1,8 @@
-import 'helloDolly/HelloDolly';
+import { mount } from "helloDolly/Canvas";
 
-console.log('admin')
+// TO-DO: import from db
+let plugins_list = [ 'helloDolly' ];
+
+console.log("admin");
+
+mount(document.querySelector("#dev"));

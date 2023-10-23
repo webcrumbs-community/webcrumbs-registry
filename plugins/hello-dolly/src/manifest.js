@@ -8,7 +8,7 @@ const mount = (el) => {
 };
 
 if (process.env.NODE_ENV === "development") {
-  const el = document.querySelector("#dev");
+  const el = document.querySelector("#manifest");
 
   if (el) {
     mount(el);

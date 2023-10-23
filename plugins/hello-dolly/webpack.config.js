@@ -11,7 +11,10 @@ module.exports = {
             name: 'helloDolly',
             filename: 'remoteEntry.js',
             exposes: {
-                './HelloDolly': './src/index.js'
+                './Canvas': './src/canvas.js',
+                './Command': './src/command.js',
+                './Manifest': './src/manifest.js',
+                './Pulse': './src/pulse.js',
             },
             shared: ['faker-js']
         }),
