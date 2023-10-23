@@ -1,6 +1,18 @@
 import { faker } from "@faker-js/faker";
 
-const name = faker.commerce.productName();
-let sayHello = `<div>Hello, ${name}!</div>`;
+const mount = (el) => {
+  const name = faker.commerce.productName();
+  let sayHello = `<div>Hello, ${name}!</div>`;
 
-document.querySelector('#dev').innerHTML = sayHello;
+  el.innerHTML = sayHello;
+};
+
+if (process.env.NODE_ENV === "development") {
+  const el = document.querySelector("#dev");
+
+  if (el) {
+    mount(el);
+  }
+}
+
+export { mount };
