@@ -16,7 +16,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'
+          python-version: "3.x"
 
       - name: Get list of top-level folders
         id: get-top-folders
@@ -35,3 +35,11 @@ jobs:
           for folder in "${FOLDERS[@]}"; do
             python ./generate_yaml.py "$folder"
           done
+
+      - name: Commit and push if changes
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "github-actions@example.com"
+          git add -A
+          git commit -m "Automatically generated new YAML files" || echo "No changes to commit"
+          git push origin || echo "No changes to push"
