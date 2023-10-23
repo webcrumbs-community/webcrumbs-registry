@@ -13,6 +13,7 @@ module.exports = {
             exposes: {
                 './HelloDolly': './src/index.js'
             },
+            shared: ['faker-js']
         }),
         new HtmlWebpackPlugin({
             template: './public/index.html'

@@ -1,20 +1,28 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
+
+// TO-DO: import from db
+plugins_list = [
+  { plugin: "helloDolly", registry: "http://localhost:8081/remoteEntry.js" },
+];
+
+const remotes = plugins_list.reduce((acc, plugin) => {
+  acc[plugin.plugin] = `${plugin.plugin}@${plugin.registry}`;
+  return acc;
+}, {});
 
 module.exports = {
-    mode: "development",
-    devServer: {
-        port: 8080
-    },
-    plugins: [
-        new ModuleFederationPlugin({
-            name: 'admin',
-            remotes: {
-                helloDolly: 'helloDolly@http://localhost:8081/remoteEntry.js'
-            },
-        }),
-        new HtmlWebpackPlugin({
-            template: './public/index.html',
-        }),
-    ],
+  mode: "development",
+  devServer: {
+    port: 8080,
+  },
+  plugins: [
+    new ModuleFederationPlugin({
+      name: "admin",
+      remotes,
+    }),
+    new HtmlWebpackPlugin({
+      template: "./public/index.html",
+    }),
+  ],
 };
