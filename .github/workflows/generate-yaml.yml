@@ -1,4 +1,4 @@
-name: Generate Dynamic Multi-Level YAML on Push
+name: Generate and PR YAML Files
 
 on:
   push:
@@ -7,44 +7,36 @@ on:
       - master
 
 jobs:
-  generate_yaml:
+  generate-and-pr:
     runs-on: ubuntu-latest
-    permissions:
-      actions: write
-      contents: write
-      pull-requests: write
-
+    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: "3.x"
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
 
-      - name: Get list of top-level folders
-        id: get-top-folders
-        run: echo "::set-output name=folders::$(ls -d */ | grep -vE '^\./|\.$' | sed 's/\/$//')"
+    - name: Install dependencies
+      run: pip install pyyaml
 
-      - name: Get list of plugin folders
-        id: get-plugin-folders
-        run: echo "::set-output name=plugin_folders::$(ls -d plugins/*/ | grep -vE '^\./|\.$' | sed 's/\/$//')"
+    - name: Run your generate script
+      run: python generate_yaml.py
 
-      - name: Install Python dependencies
-        run: pip install pyyaml
-
-      - name: Generate YAML files
-        run: |
-          IFS=' ' read -ra FOLDERS <<< "${{ steps.get-top-folders.outputs.folders }} ${{ steps.get-plugin-folders.outputs.plugin_folders }}"
-          for folder in "${FOLDERS[@]}"; do
-            python ./generate_yaml.py "$folder"
-          done
-
-      - name: Commit and push if changes
-        run: |
-          git config user.name "GitHub Actions"
-          git config user.email "github-actions@example.com"
-          git add -A
-          git commit -m "Automatically generated new YAML files" || echo "No changes to commit"
-          git push https://${{ secrets.YOUR_PERSONAL_ACCESS_TOKEN }}@github.com/webcrumbs-community/webcrumbs-registry.git || echo "No changes to push"
+    - name: Create New Branch and Commit
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git checkout -b auto-generated-yaml
+        git add -A
+        git commit -m "Automatically generated new YAML files"
+        
+    - name: Push and Create PR
+      uses: peter-evans/create-pull-request@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        branch: auto-generated-yaml
+        title: "Automatically Generated YAML Files"
+        body: "This PR includes the newly generated YAML workflow files."
