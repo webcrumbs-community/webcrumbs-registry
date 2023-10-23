@@ -1,8 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 
-import { config } from './webcrumbs';
-
 module.exports = {
     mode: "development",
     devServer: {
@@ -10,7 +8,7 @@ module.exports = {
     },
     plugins: [
         new ModuleFederationPlugin({
-            name: config.name,
+            name: 'helloDolly',
             filename: 'remoteEntry.js',
             exposes: {
                 './Canvas': './src/canvas.js',
@@ -18,7 +16,7 @@ module.exports = {
                 './Manifest': './src/manifest.js',
                 './Pulse': './src/pulse.js',
             },
-            shared: config.dependencies
+            shared: ['faker-js']
         }),
         new HtmlWebpackPlugin({
             template: './public/index.html'
