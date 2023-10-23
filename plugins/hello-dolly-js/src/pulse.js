@@ -1,6 +1,6 @@
 
 const mount = (el) => {
-  let output = `<div>Your plugin is working fine</div>`;
+  let output = `<div>Hello Dolly is working fine</div>`;
 
   el.innerHTML = output;
 };
