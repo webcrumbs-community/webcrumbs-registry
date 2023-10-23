@@ -51,7 +51,7 @@ def generate_yaml(folder_name):
     }
 
     # Write to a new YAML file
-    yaml_file_path = os.path.join(folder_name, '.github', 'workflows', f'deploy_{folder_name}.yml')
+    yaml_file_path = f'./.github/workflows/deploy_{folder_name}.yml'
     os.makedirs(os.path.dirname(yaml_file_path), exist_ok=True)
 
     with open(yaml_file_path, 'w') as file:
