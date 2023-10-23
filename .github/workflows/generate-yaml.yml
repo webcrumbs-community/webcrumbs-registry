@@ -1,4 +1,4 @@
-name: Generate and PR YAML Files
+name: Generate Dynamic Multi-Level YAML on Push
 
 on:
   push:
@@ -7,36 +7,48 @@ on:
       - master
 
 jobs:
-  generate-and-pr:
+  generate_yaml:
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
 
-    - name: Install dependencies
-      run: pip install pyyaml
+      - name: Get list of top-level folders
+        id: get-top-folders
+        run: echo "::set-output name=folders::$(ls -d */ | grep -vE '^\./|\.$' | sed 's/\/$//')"
 
-    - name: Run your generate script
-      run: python generate_yaml.py
+      - name: Get list of plugin folders
+        id: get-plugin-folders
+        run: echo "::set-output name=plugin_folders::$(ls -d plugins/*/ | grep -vE '^\./|\.$' | sed 's/\/$//')"
 
-    - name: Create New Branch and Commit
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git checkout -b auto-generated-yaml
-        git add -A
-        git commit -m "Automatically generated new YAML files"
-        
-    - name: Push and Create PR
-      uses: peter-evans/create-pull-request@v3
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        branch: auto-generated-yaml
-        title: "Automatically Generated YAML Files"
-        body: "This PR includes the newly generated YAML workflow files."
+      - name: Install Python dependencies
+        run: pip install pyyaml
+
+      - name: Generate YAML files
+        run: |
+          IFS=' ' read -ra FOLDERS <<< "${{ steps.get-top-folders.outputs.folders }} ${{ steps.get-plugin-folders.outputs.plugin_folders }}"
+          for folder in "${FOLDERS[@]}"; do
+            python ./generate_yaml.py "$folder"
+          done
+
+      - name: Create New Branch and Commit
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git checkout -b auto-generated-yaml
+          git add -A
+          git commit -m "Automatically generated new YAML files"
+            
+      - name: Push and Create PR
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: auto-generated-yaml
+          title: "Automatically Generated YAML Files"
+          body: "This PR includes the newly generated YAML workflow files."
+    
