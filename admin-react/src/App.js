@@ -4,7 +4,7 @@ import Marketing from "./components/Marketing";
 const App = () => {
   return (
     <div>
-      something
+      [Admin]
       <Marketing />
     </div>
   );
