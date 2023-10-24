@@ -59,7 +59,14 @@ def generate_yaml(path):
                     },
                     {
                         "name": "Verify Deployment",
-                        "run": f"curl -o /dev/null -s -w '%{{http_code}}\\n' https://${{{{secrets.AWS_CLOUDFRONT_DOMAIN}}}}/{path}/latest/index.html && curl -o /dev/null -s -w '%{{http_code}}\\n' https://${{{{secrets.AWS_CLOUDFRONT_DOMAIN}}}}/{path}/latest/remoteEntry.js",
+                        "run": f"""bash -c " \
+                            status1=$(curl -o /dev/null -s -w '%{{http_code}}\\n' https://${{{{secrets.AWS_CLOUDFRONT_DOMAIN}}}}/{path}/latest/index.html); \
+                            status2=$(curl -o /dev/null -s -w '%{{http_code}}\\n' https://${{{{secrets.AWS_CLOUDFRONT_DOMAIN}}}}/{path}/latest/remoteEntry.js); \
+                            if [ '$status1' -ne 200 ] || [ '$status2' -ne 200 ]; then \
+                                echo 'Error: One or more files failed to deploy properly.'; \
+                                exit 1; \
+                            fi \
+                        " """,
                     },
                 ],
             }
