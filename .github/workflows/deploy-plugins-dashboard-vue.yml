@@ -22,7 +22,7 @@ jobs:
       run: aws cloudfront create-invalidation --distribution-id ${{secrets.AWS_DISTRIBUTION_ID}}
         --paths "/plugins/dashboard-vue/index.html" "/plugins/dashboard-vue/remoteEntry.js"
     - name: Verify Deployment
-      run: curl -o /dev/null -s -w '%{http_code}\n' https://${secrets.PRODUCTION_DOMAIN}/plugins/dashboard-vue/latest/index.html
+      run: curl -o /dev/null -s -w '%{http_code}\n' https://dkpgqiynfz7yt.cloudfront.net/plugins/dashboard-vue/latest/index.html
         && curl -o /dev/null -s -w '%{http_code}\n' https://${secrets.AWS_S3_BUCKET_NAME}/plugins/dashboard-vue/latest/remoteEntry.js
 name: deploy-plugins-dashboard-vue
 'on':

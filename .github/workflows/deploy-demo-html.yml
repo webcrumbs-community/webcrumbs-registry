@@ -22,7 +22,7 @@ jobs:
       run: aws cloudfront create-invalidation --distribution-id ${{secrets.AWS_DISTRIBUTION_ID}}
         --paths "/demo-html/index.html" "/demo-html/remoteEntry.js"
     - name: Verify Deployment
-      run: curl -o /dev/null -s -w '%{http_code}\n' https://${secrets.PRODUCTION_DOMAIN}/demo-html/latest/index.html
+      run: curl -o /dev/null -s -w '%{http_code}\n' https://dkpgqiynfz7yt.cloudfront.net/demo-html/latest/index.html
         && curl -o /dev/null -s -w '%{http_code}\n' https://${secrets.AWS_S3_BUCKET_NAME}/demo-html/latest/remoteEntry.js
 name: deploy-demo-html
 'on':
