@@ -24,8 +24,8 @@ jobs:
       run: aws cloudfront create-invalidation --distribution-id ${{secrets.AWS_DISTRIBUTION_ID}}
         --paths "/admin-react/index.html" "/admin-react/remoteEntry.js"
     - name: Verify Deployment
-      run: curl -o /dev/null -s -w '%{http_code}\n' https://${{secrets.AWS_CLOUDFRONT_DOMAIN}}/admin-react/latest/index.html
-        | grep -q '200' && curl -o /dev/null -s -w '%{http_code}\n' https://${{secrets.AWS_CLOUDFRONT_DOMAIN}}/admin-react/latest/remoteEntry.js
+      run: curl -o /dev/null -s -w '%{http_code}\n' ${{secrets.PRODUCTION_DOMAIN}}/admin-react/latest/index.html
+        | grep -q '200' && curl -o /dev/null -s -w '%{http_code}\n' ${{secrets.PRODUCTION_DOMAIN}}/admin-react/latest/remoteEntry.js
         | grep -q '200' || (echo 'Uh-oh, one or both returned non-200!' && exit 1)
 name: deploy-admin-react
 'on':

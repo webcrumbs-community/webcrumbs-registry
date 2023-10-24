@@ -61,7 +61,7 @@ def generate_yaml(path):
                     },
                     {
                         "name": "Verify Deployment",
-                        "run": f"curl -o /dev/null -s -w '%{{http_code}}\\n' https://${{{{secrets.AWS_CLOUDFRONT_DOMAIN}}}}/{path}/latest/index.html | grep -q '200' && curl -o /dev/null -s -w '%{{http_code}}\\n' https://${{{{secrets.AWS_CLOUDFRONT_DOMAIN}}}}/{path}/latest/remoteEntry.js | grep -q '200' || (echo 'Uh-oh, one or both returned non-200!' && exit 1)",
+                        "run": f"curl -o /dev/null -s -w '%{{http_code}}\\n' ${{{{secrets.PRODUCTION_DOMAIN}}}}/{path}/latest/index.html | grep -q '200' && curl -o /dev/null -s -w '%{{http_code}}\\n' ${{{{secrets.PRODUCTION_DOMAIN}}}}/{path}/latest/remoteEntry.js | grep -q '200' || (echo 'Uh-oh, one or both returned non-200!' && exit 1)",
                     },
                 ],
             }
