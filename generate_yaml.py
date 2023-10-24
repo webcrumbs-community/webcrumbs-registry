@@ -30,14 +30,12 @@ def generate_yaml(path):
                 "runs-on": "ubuntu-latest",
                 "steps": [
                     {"uses": "actions/checkout@v4"},
-                    {"name": "Install", "run": "npm install"},
+                    {"run": "npm install"},
                     {
-                        "name": "Run build",
                         "run": "npm run build",
                         "env": {"PRODUCTION_DOMAIN": "${{secrets.PRODUCTION_DOMAIN}}"},
                     },
                     {
-                        "name": "Upload to S3",
                         "run": "aws s3 sync dist s3://${{secrets.AWS_S3_BUCKET_NAME}}/"
                         + path
                         + "/latest",
@@ -48,7 +46,6 @@ def generate_yaml(path):
                         },
                     },
                     {
-                        "name": "Create Invalidation",
                         "run": 'aws cloudfront create-invalidation --distribution-id ${{secrets.AWS_DISTRIBUTION_ID}} --paths "/'
                         + path
                         + '/index.html" "/'

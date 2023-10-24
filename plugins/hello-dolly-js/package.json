@@ -1,6 +1,6 @@
 {
   "name": "hello-dolly",
-  "version": "1.0.0.2",
+  "version": "1.0.0.3",
   "scripts": {
     "dev": "webpack serve --open",
     "build": "webpack --mode production"
