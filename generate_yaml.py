@@ -1,7 +1,11 @@
 import os
 import yaml
-import sys
 
+def get_top_folders():
+    return [f.name for f in os.scandir('./') if f.is_dir() and not f.name.startswith('.')]
+
+def get_plugin_folders():
+    return [f.name for f in os.scandir('./plugins') if f.is_dir() and not f.name.startswith('.')]
 
 def generate_yaml(folder_name):
     # Define the YAML content
@@ -25,28 +29,28 @@ def generate_yaml(folder_name):
                     {
                         "run": "npm run build",
                         "env": {
-                            "PRODUCTION_DOMAIN": "${{ secrets.PRODUCTION_DOMAIN }}"
+                            "PRODUCTION_DOMAIN": "${{secrets.PRODUCTION_DOMAIN}}"
                         },
                     },
                     {
-                        "run": "aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/"
+                        "run": "aws s3 sync dist s3://${{secrets.AWS_S3_BUCKET_NAME}}/"
                         + folder_name
                         + "/latest",
                         "env": {
-                            "AWS_ACCESS_KEY_ID": "${{ secrets.AWS_ACCESS_KEY_ID }}",
-                            "AWS_SECRET_ACCESS_KEY": "${{ secrets.AWS_SECRET_ACCESS_KEY }}",
+                            "AWS_ACCESS_KEY_ID": "${{secrets.AWS_ACCESS_KEY_ID}}",
+                            "AWS_SECRET_ACCESS_KEY": "${{secrets.AWS_SECRET_ACCESS_KEY}}",
                             "AWS_DEFAULT_REGION": "sa-east-1",
                         },
                     },
                     {
-                        "run": 'aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_DISTRIBUTION_ID }} --paths "/'
+                        "run": 'aws cloudfront create-invalidation --distribution-id ${{secrets.AWS_DISTRIBUTION_ID}} --paths "/'
                         + folder_name
                         + '/index.html" "/'
                         + folder_name
                         + '/remoteEntry.js"',
                         "env": {
-                            "AWS_ACCESS_KEY_ID": "${{ secrets.AWS_ACCESS_KEY_ID }}",
-                            "AWS_SECRET_ACCESS_KEY": "${{ secrets.AWS_SECRET_ACCESS_KEY }}",
+                            "AWS_ACCESS_KEY_ID": "${{secrets.AWS_ACCESS_KEY_ID}}",
+                            "AWS_SECRET_ACCESS_KEY": "${{secrets.AWS_SECRET_ACCESS_KEY}}",
                             "AWS_DEFAULT_REGION": "sa-east-1",
                         },
                     },
@@ -62,13 +66,12 @@ def generate_yaml(folder_name):
     with open(yaml_file_path, "w") as file:
         yaml.dump(data, file)
 
-
 if __name__ == "__main__":
-    folder_name = sys.argv[1] if len(sys.argv) > 1 else None
+    top_folders = get_top_folders()
+    plugin_folders = get_plugin_folders()
 
-    if folder_name:
-        generate_yaml(folder_name)
-    else:
-        print(
-            "Hey, no folder name provided. It's like making a cake without any sugar!"
-        )
+    all_folders = top_folders + plugin_folders
+
+    for folder in all_folders:
+        if folder:
+            generate_yaml(folder)
