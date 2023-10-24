@@ -9,6 +9,7 @@ const prodConfig = {
   mode: "production",
   output: {
     filename: "[name].[contenthash].js",
+    publicPath: "/plugins/marketing-react/latest/",
   },
   plugins: [
     new ModuleFederationPlugin({
