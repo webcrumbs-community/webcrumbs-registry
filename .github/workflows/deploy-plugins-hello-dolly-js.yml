@@ -22,7 +22,7 @@ jobs:
       run: aws cloudfront create-invalidation --distribution-id ${{secrets.AWS_DISTRIBUTION_ID}}
         --paths "/plugins/hello-dolly-js/index.html" "/plugins/hello-dolly-js/remoteEntry.js"
     - name: Verify Deployment
-      run: curl -o /dev/null -s -w '%{http_code}\n' https://${secrets.AWS_S3_BUCKET_NAME}/plugins/hello-dolly-js/latest/index.html
+      run: curl -o /dev/null -s -w '%{http_code}\n' https://${secrets.PRODUCTION_DOMAIN}/plugins/hello-dolly-js/latest/index.html
         && curl -o /dev/null -s -w '%{http_code}\n' https://${secrets.AWS_S3_BUCKET_NAME}/plugins/hello-dolly-js/latest/remoteEntry.js
 name: deploy-plugins-hello-dolly-js
 'on':
