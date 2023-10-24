@@ -61,17 +61,7 @@ def generate_yaml(path):
                     },
                     {
                         "name": "Verify Deployment",
-                        "run": f"""bash -c "
-                            status=$(curl -o /dev/null -s -w '%{{http_code}}' https://\${{{{secrets.AWS_CLOUDFRONT_DOMAIN}}}}/{path}/latest/remoteEntry.js);
-                            echo 'Status:' $status;
-                            if [ -z \"$status\" ]; then
-                                echo 'Error: Status code is empty.';
-                                exit 1;
-                            elif [ \"$status\" -ne 200 ]; then
-                                echo 'Error: File failed to deploy properly.';
-                                exit 1;
-                            fi"
-                        """,
+                        "run": f"curl -o /dev/null -s -w '%{{http_code}}\\n' https://${{{{secrets.AWS_CLOUDFRONT_DOMAIN}}}}/{path}/latest/index.html | grep -q '200' && curl -o /dev/null -s -w '%{{http_code}}\\n' https://${{{{secrets.AWS_CLOUDFRONT_DOMAIN}}}}/{path}/latest/remoteEntry.js | grep -q '200' || (echo 'Uh-oh, one or both returned non-200!' && exit 1)",
                     },
                 ],
             }
