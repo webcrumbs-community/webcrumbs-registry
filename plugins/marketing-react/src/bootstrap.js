@@ -3,7 +3,6 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 
 const mount = (el) => {
-  console.log("mounting");
   const root = createRoot(el);
   root.render(<App />);
 };
