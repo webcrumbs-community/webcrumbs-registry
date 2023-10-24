@@ -1,6 +1,6 @@
 defaults:
   run:
-    working-directory: plugins
+    working-directory: plugins/dashboard-vue
 jobs:
   build:
     permissions:
@@ -18,18 +18,18 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
         AWS_DEFAULT_REGION: sa-east-1
         AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
-      run: aws s3 sync dist s3://${{secrets.AWS_S3_BUCKET_NAME}}/plugins/latest
+      run: aws s3 sync dist s3://${{secrets.AWS_S3_BUCKET_NAME}}/plugins/dashboard-vue/latest
     - env:
         AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
         AWS_DEFAULT_REGION: sa-east-1
         AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
       run: aws cloudfront create-invalidation --distribution-id ${{secrets.AWS_DISTRIBUTION_ID}}
-        --paths "/plugins/index.html" "/plugins/remoteEntry.js"
-name: deploy-plugins
+        --paths "/plugins/dashboard-vue/index.html" "/plugins/dashboard-vue/remoteEntry.js"
+name: deploy-plugins-dashboard-vue
 'on':
   push:
     branches:
     - main
     - master
     paths:
-    - plugins/**
+    - plugins-dashboard-vue/**

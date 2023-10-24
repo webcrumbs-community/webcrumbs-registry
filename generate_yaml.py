@@ -2,19 +2,20 @@ import os
 import yaml
 
 def get_top_folders():
-    return [f.name for f in os.scandir('./') if f.is_dir() and not f.name.startswith('.')]
+    return [f.name for f in os.scandir('./') if f.is_dir() and f.name != 'plugins' and not f.name.startswith('.')]
 
 def get_plugin_folders():
-    return [f.name for f in os.scandir('./plugins') if f.is_dir() and not f.name.startswith('.')]
+    return [f'plugins/{f.name}' for f in os.scandir('./plugins') if f.is_dir() and not f.name.startswith('.')]
 
-def generate_yaml(folder_name):
+def generate_yaml(path):
+    folder_name = path.replace('/', '-')
     # Define the YAML content
     data = {
         "name": f"deploy-{folder_name}",
         "on": {
             "push": {"branches": ["main", "master"], "paths": [f"{folder_name}/**"]}
         },
-        "defaults": {"run": {"working-directory": folder_name}},
+        "defaults": {"run": {"working-directory": path}},
         "jobs": {
             "build": {
                 "runs-on": "ubuntu-latest",
@@ -34,7 +35,7 @@ def generate_yaml(folder_name):
                     },
                     {
                         "run": "aws s3 sync dist s3://${{secrets.AWS_S3_BUCKET_NAME}}/"
-                        + folder_name
+                        + path
                         + "/latest",
                         "env": {
                             "AWS_ACCESS_KEY_ID": "${{secrets.AWS_ACCESS_KEY_ID}}",
@@ -44,9 +45,9 @@ def generate_yaml(folder_name):
                     },
                     {
                         "run": 'aws cloudfront create-invalidation --distribution-id ${{secrets.AWS_DISTRIBUTION_ID}} --paths "/'
-                        + folder_name
+                        + path
                         + '/index.html" "/'
-                        + folder_name
+                        + path
                         + '/remoteEntry.js"',
                         "env": {
                             "AWS_ACCESS_KEY_ID": "${{secrets.AWS_ACCESS_KEY_ID}}",
@@ -60,7 +61,7 @@ def generate_yaml(folder_name):
     }
 
     # Write to a new YAML file
-    yaml_file_path = f"./.github/workflows/deploy_{folder_name}.yml"
+    yaml_file_path = f"./.github/workflows/deploy-{folder_name}.yml"
     os.makedirs(os.path.dirname(yaml_file_path), exist_ok=True)
 
     with open(yaml_file_path, "w") as file:
