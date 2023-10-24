@@ -36,6 +36,7 @@ def generate_yaml(path):
                         "env": {"PRODUCTION_DOMAIN": "${{secrets.PRODUCTION_DOMAIN}}"},
                     },
                     {
+                        "name": "Upload to S3",
                         "run": "aws s3 sync dist s3://${{secrets.AWS_S3_BUCKET_NAME}}/"
                         + path
                         + "/latest",
@@ -46,6 +47,7 @@ def generate_yaml(path):
                         },
                     },
                     {
+                        "name": "Create Invalidation",
                         "run": 'aws cloudfront create-invalidation --distribution-id ${{secrets.AWS_DISTRIBUTION_ID}} --paths "/'
                         + path
                         + '/index.html" "/'
@@ -59,14 +61,18 @@ def generate_yaml(path):
                     },
                     {
                         "name": "Verify Deployment",
-                        "run": f"""bash -c " \
-                            status1=$(curl -o /dev/null -s -w '%{{http_code}}\\n' https://${{{{secrets.AWS_CLOUDFRONT_DOMAIN}}}}/{path}/latest/index.html); \
-                            status2=$(curl -o /dev/null -s -w '%{{http_code}}\\n' https://${{{{secrets.AWS_CLOUDFRONT_DOMAIN}}}}/{path}/latest/remoteEntry.js); \
-                            if [ '$status1' -ne 200 ] || [ '$status2' -ne 200 ]; then \
-                                echo 'Error: One or more files failed to deploy properly.'; \
-                                exit 1; \
-                            fi \
-                        " """,
+                        "run": f"""bash -c "
+                            status1=$(curl -o /dev/null -s -w '%{{http_code}}\\n' https://${{{{secrets.AWS_CLOUDFRONT_DOMAIN}}}}/{path}/latest/index.html);
+                            status2=$(curl -o /dev/null -s -w '%{{http_code}}\\n' https://${{{{secrets.AWS_CLOUDFRONT_DOMAIN}}}}/{path}/latest/remoteEntry.js);
+                            echo 'Status1: '$status1', Status2: '$status2;
+                            if [ -z '$status1' ] || [ -z '$status2' ]; then
+                                echo 'Error: One or more status codes are empty.';
+                                exit 1;
+                            elif [ '$status1' -ne 200 ] || [ '$status2' -ne 200 ]; then
+                                echo 'Error: One or more files failed to deploy properly.';
+                                exit 1;
+                            fi"
+                        """,
                     },
                 ],
             }
