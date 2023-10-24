@@ -27,12 +27,12 @@ jobs:
       run: "bash -c \"\n                            status=$(curl -o /dev/null -s\
         \ -w '%{http_code}' https://\\${{secrets.AWS_CLOUDFRONT_DOMAIN}}/plugins/hello-dolly-js/latest/remoteEntry.js);\n\
         \                            echo 'Status:' $status;\n                   \
-        \         if [ -z $status ]; then\n                                echo 'Error:\
-        \ Status code is empty.';\n                                exit 1;\n     \
-        \                       elif [ $status -ne 200 ]; then\n                 \
-        \               echo 'Error: File failed to deploy properly.';\n         \
-        \                       exit 1;\n                            fi\"\n      \
-        \                  "
+        \         if [ -z \"$status\" ]; then\n                                echo\
+        \ 'Error: Status code is empty.';\n                                exit 1;\n\
+        \                            elif [ \"$status\" -ne 200 ]; then\n        \
+        \                        echo 'Error: File failed to deploy properly.';\n\
+        \                                exit 1;\n                            fi\"\
+        \n                        "
 name: deploy-plugins-hello-dolly-js
 'on':
   push:
