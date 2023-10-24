@@ -22,8 +22,8 @@ jobs:
       run: aws cloudfront create-invalidation --distribution-id ${{secrets.AWS_DISTRIBUTION_ID}}
         --paths "/admin-next/index.html" "/admin-next/remoteEntry.js"
     - name: Verify Deployment
-      run: curl -o /dev/null -s -w '%{http_code}\n' https://dkpgqiynfz7yt.cloudfront.net/admin-next/latest/index.html
-        && curl -o /dev/null -s -w '%{http_code}\n' https://${secrets.AWS_S3_BUCKET_NAME}/admin-next/latest/remoteEntry.js
+      run: curl -o /dev/null -s -w '%{http_code}\n' https://${{secrets.PRODUCTION_DOMAIN}}/admin-next/latest/index.html
+        && curl -o /dev/null -s -w '%{http_code}\n' https://${{secrets.AWS_S3_BUCKET_NAME}}/admin-next/latest/remoteEntry.js
 name: deploy-admin-next
 'on':
   push:
