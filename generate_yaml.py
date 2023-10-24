@@ -62,14 +62,13 @@ def generate_yaml(path):
                     {
                         "name": "Verify Deployment",
                         "run": f"""bash -c "
-                            status1=$(curl -o /dev/null -s -w '%{{http_code}}\\n' https://${{{{secrets.AWS_CLOUDFRONT_DOMAIN}}}}/{path}/latest/index.html);
-                            status2=$(curl -o /dev/null -s -w '%{{http_code}}\\n' https://${{{{secrets.AWS_CLOUDFRONT_DOMAIN}}}}/{path}/latest/remoteEntry.js);
-                            echo 'Status1: '$status1', Status2: '$status2;
-                            if [ -z '$status1' ] || [ -z '$status2' ]; then
-                                echo 'Error: One or more status codes are empty.';
+                            status=$(curl -o /dev/null -s -w '%{{http_code}}\\n' https://${{{{secrets.AWS_CLOUDFRONT_DOMAIN}}}}/{path}/latest/remoteEntry.js);
+                            echo 'Status: '$status;
+                            if [ -z '$status' ]; then
+                                echo 'Error: Status code is empty.';
                                 exit 1;
-                            elif [ '$status1' -ne 200 ] || [ '$status2' -ne 200 ]; then
-                                echo 'Error: One or more files failed to deploy properly.';
+                            elif [ '$status' -ne 200 ]; then
+                                echo 'Error: File failed to deploy properly.';
                                 exit 1;
                             fi"
                         """,

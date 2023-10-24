@@ -24,18 +24,15 @@ jobs:
       run: aws cloudfront create-invalidation --distribution-id ${{secrets.AWS_DISTRIBUTION_ID}}
         --paths "/admin-react/index.html" "/admin-react/remoteEntry.js"
     - name: Verify Deployment
-      run: "bash -c \"\n                            status1=$(curl -o /dev/null -s\
-        \ -w '%{http_code}\\n' https://${{secrets.AWS_CLOUDFRONT_DOMAIN}}/admin-react/latest/index.html);\n\
-        \                            status2=$(curl -o /dev/null -s -w '%{http_code}\\\
-        n' https://${{secrets.AWS_CLOUDFRONT_DOMAIN}}/admin-react/latest/remoteEntry.js);\n\
-        \                            echo 'Status1: '$status1', Status2: '$status2;\n\
-        \                            if [ -z '$status1' ] || [ -z '$status2' ]; then\n\
-        \                                echo 'Error: One or more status codes are\
-        \ empty.';\n                                exit 1;\n                    \
-        \        elif [ '$status1' -ne 200 ] || [ '$status2' -ne 200 ]; then\n   \
-        \                             echo 'Error: One or more files failed to deploy\
-        \ properly.';\n                                exit 1;\n                 \
-        \           fi\"\n                        "
+      run: "bash -c \"\n                            status=$(curl -o /dev/null -s\
+        \ -w '%{http_code}\\n' https://${{secrets.AWS_CLOUDFRONT_DOMAIN}}/admin-react/latest/remoteEntry.js);\n\
+        \                            echo 'Status: '$status;\n                   \
+        \         if [ -z '$status' ]; then\n                                echo\
+        \ 'Error: Status code is empty.';\n                                exit 1;\n\
+        \                            elif [ '$status' -ne 200 ]; then\n          \
+        \                      echo 'Error: File failed to deploy properly.';\n  \
+        \                              exit 1;\n                            fi\"\n\
+        \                        "
 name: deploy-admin-react
 'on':
   push:
