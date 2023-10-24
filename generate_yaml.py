@@ -62,7 +62,7 @@ def generate_yaml(path):
                     {
                         "name": "Verify Deployment",
                         "run": f"""bash -c "
-                            status=$(curl -o /dev/null -s -w '%{{http_code}}' https://{{{{secrets.AWS_CLOUDFRONT_DOMAIN}}}}/{path}/latest/remoteEntry.js);
+                            status=$(curl -o /dev/null -s -w '%{{http_code}}' https://${{{{secrets.AWS_CLOUDFRONT_DOMAIN}}}}/{path}/latest/remoteEntry.js);
                             echo 'Status:' $status;
                             if [ -z $status ]; then
                                 echo 'Error: Status code is empty.';
