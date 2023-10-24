@@ -30,8 +30,9 @@ def generate_yaml(path):
                 "runs-on": "ubuntu-latest",
                 "steps": [
                     {"uses": "actions/checkout@v4"},
-                    {"run": "npm install"},
+                    {"name": "Install", "run": "npm install"},
                     {
+                        "name": "Run build",
                         "run": "npm run build",
                         "env": {"PRODUCTION_DOMAIN": "${{secrets.PRODUCTION_DOMAIN}}"},
                     },
