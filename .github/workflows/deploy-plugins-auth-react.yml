@@ -25,7 +25,7 @@ jobs:
         --paths "/plugins/auth-react/index.html" "/plugins/auth-react/remoteEntry.js"
     - name: Verify Deployment
       run: "bash -c \"\n                            status=$(curl -o /dev/null -s\
-        \ -w '%{http_code}' https://{{secrets.AWS_CLOUDFRONT_DOMAIN}}/plugins/auth-react/latest/remoteEntry.js);\n\
+        \ -w '%{http_code}' https://\\${{secrets.AWS_CLOUDFRONT_DOMAIN}}/plugins/auth-react/latest/remoteEntry.js);\n\
         \                            echo 'Status:' $status;\n                   \
         \         if [ -z $status ]; then\n                                echo 'Error:\
         \ Status code is empty.';\n                                exit 1;\n     \
