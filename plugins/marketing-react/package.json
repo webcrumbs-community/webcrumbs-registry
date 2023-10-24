@@ -1,6 +1,6 @@
 {
   "name": "marketing",
-  "version": "1.0.0.2",
+  "version": "1.0.0.3",
   "scripts": {
     "dev": "webpack serve --config config/webpack.dev.js",
     "build": "webpack --config config/webpack.prod.js"

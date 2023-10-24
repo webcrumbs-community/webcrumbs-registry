@@ -48,9 +48,9 @@ def generate_yaml(path):
                     {
                         "run": 'aws cloudfront create-invalidation --distribution-id ${{secrets.AWS_DISTRIBUTION_ID}} --paths "/'
                         + path
-                        + '/index.html" "/'
+                        + '/latest/index.html" "/'
                         + path
-                        + '/remoteEntry.js"',
+                        + '/latest/remoteEntry.js"',
                         "env": {
                             "AWS_ACCESS_KEY_ID": "${{secrets.AWS_ACCESS_KEY_ID}}",
                             "AWS_SECRET_ACCESS_KEY": "${{secrets.AWS_SECRET_ACCESS_KEY}}",
