@@ -13,7 +13,7 @@ def generate_yaml(path):
     data = {
         "name": f"deploy-{folder_name}",
         "on": {
-            "push": {"branches": ["main", "master"], "paths": [f"{folder_name}/**"]}
+            "push": {"branches": ["main", "master"], "paths": [f"{path}/**"]}
         },
         "defaults": {"run": {"working-directory": path}},
         "jobs": {

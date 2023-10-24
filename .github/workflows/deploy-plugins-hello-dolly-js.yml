@@ -28,4 +28,4 @@ name: deploy-plugins-hello-dolly-js
     - main
     - master
     paths:
-    - plugins-hello-dolly-js/**
+    - plugins/hello-dolly-js/**

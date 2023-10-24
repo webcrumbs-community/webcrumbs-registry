@@ -28,4 +28,4 @@ name: deploy-plugins-marketing-react
     - main
     - master
     paths:
-    - plugins-marketing-react/**
+    - plugins/marketing-react/**

@@ -28,4 +28,4 @@ name: deploy-plugins-dashboard-vue
     - main
     - master
     paths:
-    - plugins-dashboard-vue/**
+    - plugins/dashboard-vue/**

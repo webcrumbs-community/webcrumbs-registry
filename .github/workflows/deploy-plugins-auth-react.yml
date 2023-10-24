@@ -28,4 +28,4 @@ name: deploy-plugins-auth-react
     - main
     - master
     paths:
-    - plugins-auth-react/**
+    - plugins/auth-react/**
