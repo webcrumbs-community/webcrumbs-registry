@@ -59,7 +59,7 @@ def generate_yaml(path):
                     },
                     {
                         "name": "Verify Deployment",
-                        "run": f"curl -o /dev/null -s -w '%{{http_code}}\\n' https://${{{{secrets.PRODUCTION_DOMAIN}}}}/{path}/latest/index.html && curl -o /dev/null -s -w '%{{http_code}}\\n' https://${{{{secrets.PRODUCTION_DOMAIN}}}}/{path}/latest/remoteEntry.js",
+                        "run": f"curl -o /dev/null -s -w '%{{http_code}}\\n' https://${{{{secrets.AWS_CLOUDFRONT_DOMAIN}}}}/{path}/latest/index.html && curl -o /dev/null -s -w '%{{http_code}}\\n' https://${{{{secrets.AWS_CLOUDFRONT_DOMAIN}}}}/{path}/latest/remoteEntry.js",
                     },
                 ],
             }
