@@ -3,10 +3,6 @@ defaults:
     working-directory: admin-react
 jobs:
   build:
-    permissions:
-      actions: write
-      contents: write
-      pull-requests: write
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4

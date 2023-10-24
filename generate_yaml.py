@@ -19,11 +19,6 @@ def generate_yaml(path):
         "jobs": {
             "build": {
                 "runs-on": "ubuntu-latest",
-                "permissions": {
-                    "actions": "write",
-                    "contents": "write",
-                    "pull-requests": "write",
-                },
                 "steps": [
                     {"uses": "actions/checkout@v4"},
                     {"run": "npm install"},
