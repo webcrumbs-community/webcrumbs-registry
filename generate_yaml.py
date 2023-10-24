@@ -1,20 +1,29 @@
 import os
 import yaml
 
+
 def get_top_folders():
-    return [f.name for f in os.scandir('./') if f.is_dir() and f.name != 'plugins' and not f.name.startswith('.')]
+    return [
+        f.name
+        for f in os.scandir("./")
+        if f.is_dir() and f.name != "plugins" and not f.name.startswith(".")
+    ]
+
 
 def get_plugin_folders():
-    return [f'plugins/{f.name}' for f in os.scandir('./plugins') if f.is_dir() and not f.name.startswith('.')]
+    return [
+        f"plugins/{f.name}"
+        for f in os.scandir("./plugins")
+        if f.is_dir() and not f.name.startswith(".")
+    ]
+
 
 def generate_yaml(path):
-    folder_name = path.replace('/', '-')
+    folder_name = path.replace("/", "-")
     # Define the YAML content
     data = {
         "name": f"deploy-{folder_name}",
-        "on": {
-            "push": {"branches": ["main", "master"], "paths": [f"{path}/**"]}
-        },
+        "on": {"push": {"branches": ["main", "master"], "paths": [f"{path}/**"]}},
         "defaults": {"run": {"working-directory": path}},
         "jobs": {
             "build": {
@@ -24,9 +33,7 @@ def generate_yaml(path):
                     {"run": "npm install"},
                     {
                         "run": "npm run build",
-                        "env": {
-                            "PRODUCTION_DOMAIN": "${{secrets.PRODUCTION_DOMAIN}}"
-                        },
+                        "env": {"PRODUCTION_DOMAIN": "${{secrets.PRODUCTION_DOMAIN}}"},
                     },
                     {
                         "run": "aws s3 sync dist s3://${{secrets.AWS_S3_BUCKET_NAME}}/"
@@ -50,6 +57,10 @@ def generate_yaml(path):
                             "AWS_DEFAULT_REGION": "sa-east-1",
                         },
                     },
+                    {
+                        "name": "Verify Deployment",
+                        "run": f"curl -o /dev/null -s -w '%{{http_code}}\\n' https://${{secrets.AWS_S3_BUCKET_NAME}}/{path}/latest/index.html && curl -o /dev/null -s -w '%{{http_code}}\\n' https://${{secrets.AWS_S3_BUCKET_NAME}}/{path}/latest/remoteEntry.js",
+                    },
                 ],
             }
         },
@@ -61,6 +72,7 @@ def generate_yaml(path):
 
     with open(yaml_file_path, "w") as file:
         yaml.dump(data, file)
+
 
 if __name__ == "__main__":
     top_folders = get_top_folders()

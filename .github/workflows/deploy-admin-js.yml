@@ -21,6 +21,9 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
       run: aws cloudfront create-invalidation --distribution-id ${{secrets.AWS_DISTRIBUTION_ID}}
         --paths "/admin-js/index.html" "/admin-js/remoteEntry.js"
+    - name: Verify Deployment
+      run: curl -o /dev/null -s -w '%{http_code}\n' https://${secrets.AWS_S3_BUCKET_NAME}/admin-js/latest/index.html
+        && curl -o /dev/null -s -w '%{http_code}\n' https://${secrets.AWS_S3_BUCKET_NAME}/admin-js/latest/remoteEntry.js
 name: deploy-admin-js
 'on':
   push:
